@@ -234,3 +234,43 @@ describe('mcp endpoint', () => {
     }
   });
 });
+
+describe('openai apps domain verification', () => {
+  const CHALLENGE_PATH = 'https://coue.example.com/.well-known/openai-apps-challenge';
+
+  it('returns 404 when no token is configured', async () => {
+    const response = await app.fetch(new Request(CHALLENGE_PATH), {});
+    expect(response.status).toBe(404);
+  });
+
+  it('serves the token as plain text, exactly as configured', async () => {
+    const token = 'openai-apps-verification-abc123XYZ';
+    const response = await app.fetch(new Request(CHALLENGE_PATH), {
+      OPENAI_APPS_CHALLENGE: token
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get('Content-Type')).toContain('text/plain');
+
+    const body = await response.text();
+    // The portal compares byte for byte: no JSON wrapper, no trailing newline.
+    expect(body).toBe(token);
+  });
+
+  it('does not expose the token anywhere else', async () => {
+    const token = 'openai-apps-verification-abc123XYZ';
+    const env = { OPENAI_APPS_CHALLENGE: token };
+    for (const path of ['https://coue.example.com/', 'https://coue.example.com/health']) {
+      const response = await app.fetch(new Request(path), env);
+      expect(await response.text()).not.toContain(token);
+    }
+  });
+});
+
+describe('host-neutral public metadata', () => {
+  it('does not position the service as belonging to one assistant vendor', async () => {
+    const response = await app.fetch(new Request('https://coue.example.com/'));
+    const text = await response.text();
+    expect(text).not.toMatch(/for Claude|for ChatGPT|for OpenAI|for Anthropic/i);
+  });
+});

@@ -15,7 +15,20 @@ import { LIMITS } from './utils/limits.js';
  * true by construction rather than by policy.
  */
 
-const app = new Hono();
+/**
+ * Worker bindings.
+ *
+ * `OPENAI_APPS_CHALLENGE` holds the domain-verification token issued by the
+ * OpenAI submission portal. It is set as a Wrangler secret rather than
+ * committed, and the route serving it returns 404 until it is set. The token
+ * is published publicly by design, so it is not a credential; keeping it out
+ * of the repository just avoids a stale value shipping with the source.
+ */
+export interface Env {
+  OPENAI_APPS_CHALLENGE?: string;
+}
+
+const app = new Hono<{ Bindings: Env }>();
 
 /**
  * CORS.
@@ -67,11 +80,27 @@ app.get('/health', (c) =>
   })
 );
 
+/**
+ * Domain verification for the OpenAI apps directory.
+ *
+ * The submission portal issues a challenge token that must be served as plain
+ * text, exactly as given, from this path on the MCP hostname. Returns 404
+ * until the token is configured, so the route is never a source of a stale or
+ * incorrect value.
+ */
+app.get('/.well-known/openai-apps-challenge', (c) => {
+  const token = c.env?.OPENAI_APPS_CHALLENGE;
+  if (!token) {
+    return c.text('Not found', 404);
+  }
+  return c.text(token, 200, { 'Content-Type': 'text/plain; charset=utf-8' });
+});
+
 /** Service description, useful for anyone who opens the URL directly. */
 app.get('/', (c) =>
   c.json({
     service: 'coue',
-    description: 'AI/ML production readiness auditing for Claude.',
+    description: 'AI/ML production readiness auditing.',
     version: SERVER_VERSION,
     mcpEndpoint: '/mcp',
     transport: 'streamable-http',

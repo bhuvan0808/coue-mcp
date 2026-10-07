@@ -4,21 +4,22 @@
 
 <h1 align="center">COUE</h1>
 
-<p align="center"><strong>AI/ML Production Readiness for Claude</strong></p>
+<p align="center"><strong>AI/ML Production Readiness</strong></p>
 
 <p align="center">
-  A remote MCP server that audits AI and machine-learning projects for production readiness.
+  A remote MCP server that audits AI and machine-learning projects for production readiness.<br>
+  Works with any MCP client, including ChatGPT and Claude.
 </p>
 
 ---
 
 ## What is COUE?
 
-COUE is a Model Context Protocol server that gives Claude a specialized, deterministic
-engineering capability: analyzing AI/ML projects for the issues that cause production
-incidents.
+COUE is a Model Context Protocol server that gives an AI assistant a specialized,
+deterministic engineering capability: analyzing AI/ML projects for the issues that cause
+production incidents.
 
-You connect it to Claude once, then ask things like:
+You connect it once, then ask things like:
 
 > Audit this machine-learning project before I deploy it.
 
@@ -30,10 +31,10 @@ You connect it to Claude once, then ask things like:
 
 The division of labour is deliberate:
 
-> **Claude provides the reasoning. COUE provides the specialized engineering analysis.**
+> **The assistant provides the reasoning. COUE provides the specialized engineering analysis.**
 
 There is no language model inside COUE. Every result is produced by deterministic static
-analysis, so the same input always yields the same output, and Claude explains and
+analysis, so the same input always yields the same output, and the assistant explains and
 contextualizes it.
 
 ## Why COUE?
@@ -57,7 +58,8 @@ guessing.
 ## How it works
 
 ```
-                         Claude
+                     MCP client
+               (ChatGPT, Claude, or other)
                            |
                            | MCP (Streamable HTTP)
                            v
@@ -85,7 +87,7 @@ Security Deps    Docker   Model-Serving Testing  Repro /
                   Structured Findings
                            |
                            v
-                         Claude
+                     MCP client
 ```
 
 The MCP protocol layer is separate from the analysis engine. Tool handlers call a service
@@ -245,7 +247,8 @@ discarded when it completes. There is no database, object store, cache, or queue
 bodies are never logged. COUE does not access Claude conversation history, Claude memory,
 or any external account.
 
-Full detail: [docs/privacy.md](docs/privacy.md).
+Full detail: [docs/privacy.md](docs/privacy.md). See also the
+[Terms of Service](docs/terms.md) and the [Support page](docs/support.md).
 
 ## Limitations
 
@@ -336,18 +339,35 @@ curl https://coue-mcp.coue-mcp.workers.dev/health
 # {"status":"ok","service":"coue","version":"1.0.0"}
 ```
 
-## Claude setup
+## Connecting COUE
 
-COUE requires no authentication, so connecting it is a single step.
+COUE requires no authentication, no account, and no API key. Point any MCP client at:
 
 ```
 https://coue-mcp.coue-mcp.workers.dev/mcp
 ```
 
-1. In Claude, go to **Settings → Connectors**.
+The transport is Streamable HTTP.
+
+### ChatGPT
+
+1. Go to **Settings → Connectors → Advanced → Developer mode**.
+2. Choose **Create**, and enter the URL above.
+3. Set authentication to **No authentication**.
+4. Enable COUE in a conversation and ask it to audit a project.
+
+### Claude
+
+1. Go to **Settings → Connectors**.
 2. Choose **Add custom connector**.
 3. Enter the URL above.
 4. Open a conversation, enable COUE from **+ → Connectors**, and ask it to audit a project.
+
+### Claude Code
+
+```bash
+claude mcp add --transport http coue https://coue-mcp.coue-mcp.workers.dev/mcp
+```
 
 ## Roadmap
 
@@ -363,6 +383,12 @@ readiness monitoring.
 
 MCP Apps are deliberately not part of v1. The core connector works entirely through
 normal MCP tools and text results.
+
+## Support
+
+Questions, bug reports, and requests for new checks: [docs/support.md](docs/support.md),
+or open an issue at
+[github.com/bhuvan0808/coue-mcp/issues](https://github.com/bhuvan0808/coue-mcp/issues).
 
 ## Contributing
 

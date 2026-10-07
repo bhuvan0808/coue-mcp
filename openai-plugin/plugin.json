@@ -1,0 +1,47 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "coue",
+  "version": "1.0.0",
+  "description": "Audit AI and machine-learning projects for production readiness using deterministic static analysis.",
+  "author": {
+    "name": "Bhuvan Boddu",
+    "url": "https://github.com/bhuvan0808"
+  },
+  "homepage": "https://github.com/bhuvan0808/coue-mcp",
+  "repository": "https://github.com/bhuvan0808/coue-mcp",
+  "license": "Apache-2.0",
+  "keywords": [
+    "mlops",
+    "production-readiness",
+    "static-analysis",
+    "ml-engineering",
+    "devops"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "COUE",
+        "shortDescription": "AI/ML production readiness auditing.",
+        "longDescription": "COUE analyzes AI and machine-learning projects for production readiness. It checks dependencies, security, Docker, model-serving patterns, testing, reproducibility, observability, and deployment practices, then returns a prioritized readiness score and actionable recommendations.\n\nCOUE performs deterministic static analysis and contains no language model: the assistant supplies the reasoning and explanation, while COUE supplies the specialized engineering analysis. The same project always produces the same result.\n\nIt targets the failures that actually take machine-learning services down, which general-purpose code review tends to miss: a model loaded inside the request handler rather than at startup, so every request pays the full load cost; a service that passes every application health check while its accuracy quietly degrades, because nothing monitors the model as distinct from the service; a model artifact at a mutable path, so a deployment cannot be traced to the run that produced it; a training run with no seed, so a regression cannot be separated from random variance.\n\nWhere COUE cannot determine something from the files it was given, it reports UNKNOWN and excludes that check from the score, rather than treating absence of evidence as failure.\n\nCOUE is unauthenticated and stateless. It analyzes files in memory within a single request and discards them when the request completes. It operates no database or storage, makes no outbound network requests during analysis, never executes submitted code, and never returns or logs a detected credential value.\n\nThe readiness score is an engineering heuristic derived from static analysis. It is not a security certification, a compliance certification, or a guarantee of production safety.",
+        "developerName": "Bhuvan Boddu",
+        "category": "Developer Tools",
+        "capabilities": [
+          "Read"
+        ],
+        "websiteURL": "https://github.com/bhuvan0808/coue-mcp",
+        "supportURL": "https://github.com/bhuvan0808/coue-mcp/blob/main/docs/support.md",
+        "privacyPolicyURL": "https://github.com/bhuvan0808/coue-mcp/blob/main/docs/privacy.md",
+        "termsOfServiceURL": "https://github.com/bhuvan0808/coue-mcp/blob/main/docs/terms.md",
+        "defaultPrompt": [
+          "Audit this ML project for production readiness.",
+          "Find the biggest production risks in this machine-learning project.",
+          "Compare these models and recommend one for production if latency matters most.",
+          "Turn these findings into a deployment checklist."
+        ],
+        "brandColor": "#FF7A00",
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/logo.png"
+      }
+    }
+  }
+}

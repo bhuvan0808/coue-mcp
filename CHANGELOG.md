@@ -5,6 +5,32 @@ All notable changes to COUE are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this
 project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- Public copy is now host-neutral. COUE is positioned as an MCP server that works with
+  any client rather than as a Claude-specific connector, so the same listing copy serves
+  both the Anthropic and OpenAI directories. The `claude` keyword was dropped from
+  `package.json`, and the README setup section now covers ChatGPT, Claude, and Claude Code.
+
+### Added
+
+- Terms of Service (`docs/terms.md`) and a customer-facing support page
+  (`docs/support.md`). Both are required for an OpenAI directory submission; the terms
+  also close a real gap, since COUE is a public service that previously published none.
+- `GET /.well-known/openai-apps-challenge`, serving the OpenAI domain-verification token
+  as plain text from the `OPENAI_APPS_CHALLENGE` binding. Returns 404 until the token is
+  configured, so a stale or placeholder value can never be served. Verified end to end
+  against the deployed Worker.
+- `openai-plugin/`: the Agent Plugins package (`plugin.json`, `mcp.json`, icon and logo)
+  declaring COUE as a remote Streamable HTTP server with all four required listing URLs.
+- `docs/openai-submission.md`: the OpenAI submission packet, including the required five
+  positive and three negative review cases and a demo-video outline.
+- Tests pinning the plugin package: required URLs present and HTTPS, version lockstep
+  with the server, read-only capability matching the tool annotations, assets resolving,
+  no credentials in the package, and no vendor-specific positioning in listing copy.
+
 ## [1.0.0] - 2026-10-07
 
 Initial release.

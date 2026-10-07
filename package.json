@@ -1,7 +1,7 @@
 {
   "name": "coue-mcp",
   "version": "1.0.0",
-  "description": "COUE - AI/ML production readiness auditing for Claude. A remote MCP server.",
+  "description": "COUE - AI/ML production readiness auditing. A remote MCP server.",
   "type": "module",
   "private": true,
   "license": "Apache-2.0",
@@ -16,11 +16,12 @@
   },
   "keywords": [
     "mcp",
-    "claude",
-    "connector",
     "mlops",
     "production-readiness",
-    "static-analysis"
+    "static-analysis",
+    "ml-engineering",
+    "devops",
+    "model-serving"
   ],
   "engines": {
     "node": ">=20"

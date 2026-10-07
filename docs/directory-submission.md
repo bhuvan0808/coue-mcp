@@ -5,6 +5,9 @@ prepared in the order the portal asks for it.
 
 Submit by choosing **Submit new → MCP connector**.
 
+> COUE is also prepared for the OpenAI app directory. That is a separate, independent
+> submission: see [openai-submission.md](openai-submission.md). Neither blocks the other.
+
 > **Fields marked `TO BE PROVIDED` require your decision.** They have been left blank
 > deliberately rather than filled with a guess.
 
@@ -63,7 +66,7 @@ COUE
 **One-liner** (≤200 characters)
 
 ```
-AI/ML production readiness auditing for Claude.
+AI/ML production readiness auditing.
 ```
 
 **Description** (≤2,000 characters)
@@ -71,7 +74,7 @@ AI/ML production readiness auditing for Claude.
 ```
 COUE analyzes AI and machine-learning projects for production readiness. It checks dependencies, security, Docker, model-serving patterns, testing, reproducibility, observability, and deployment practices, then returns a prioritized readiness score and actionable recommendations.
 
-COUE performs deterministic static analysis. It contains no language model: Claude supplies the reasoning and explanation, while COUE supplies the specialized engineering analysis. The same project always produces the same result.
+COUE performs deterministic static analysis. It contains no language model: Claude supplies the reasoning and explanation, while COUE supplies the specialized engineering analysis. COUE is host-neutral and works with any MCP client. The same project always produces the same result.
 
 It is built around the failures that actually take machine-learning services down, which general-purpose code review tends to miss: a model loaded inside the request handler rather than at startup, so every request pays the full load cost; a service that passes every application health check while its accuracy quietly degrades, because nothing monitors the model as distinct from the service; a model artifact at a mutable path, so a deployment cannot be traced to the run that produced it; a training run with no seed, so a regression cannot be separated from random variance; unpinned dependencies on a floating base image, so a rebuild produces a different system.
 
@@ -106,7 +109,16 @@ https://github.com/bhuvan0808/coue-mcp/blob/main/docs/privacy.md
 **Support contact**
 
 ```
-https://github.com/bhuvan0808/coue-mcp/issues
+https://github.com/bhuvan0808/coue-mcp/blob/main/docs/support.md
+```
+
+(The support page routes to GitHub Issues at
+`https://github.com/bhuvan0808/coue-mcp/issues`, which also works as the contact directly.)
+
+**Terms of service** — not required by Anthropic, but published anyway:
+
+```
+https://github.com/bhuvan0808/coue-mcp/blob/main/docs/terms.md
 ```
 
 **Icon**
