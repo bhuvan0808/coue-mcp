@@ -1,0 +1,8 @@
+# Intentionally imperfect: used by COUE's own test suite as a fixture.
+torch
+torchvision>=0.15
+fastapi==0.110.0
+uvicorn
+numpy
+pillow
+pytest

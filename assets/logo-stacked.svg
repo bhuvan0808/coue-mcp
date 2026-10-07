@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 260" width="460" height="260" role="img" aria-label="coue">
+  <title>coue</title>
+  <desc>The COUE logo, stacked: the lowercase wordmark "coue" above four orange dots aligned to the letters.</desc>
+  <rect width="460" height="260" fill="#FFFFFF"/>
+
+  <g fill="none" stroke="#FF7A00" stroke-width="21" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M82.98 100.72 A30 30 0 1 0 82.98 139.28"/>
+    <path d="M122 120 A30 30 0 1 0 182 120 A30 30 0 1 0 122 120"/>
+    <path d="M214 90 L214 120 A30 30 0 0 0 274 120 L274 90"/>
+    <path d="M306 120 L366 120"/>
+    <path d="M366 120 A30 30 0 1 0 357.21 141.21"/>
+  </g>
+
+  <g fill="#FF7A00">
+    <circle cx="60" cy="205" r="18"/>
+    <circle cx="152" cy="205" r="18"/>
+    <circle cx="244" cy="205" r="18"/>
+    <circle cx="336" cy="205" r="18"/>
+  </g>
+</svg>

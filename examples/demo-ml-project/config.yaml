@@ -1,0 +1,15 @@
+# Training and serving configuration for the demo project.
+model:
+  name: resnet18-demo
+  num_classes: 10
+  weights_path: /home/mluser/checkpoints/model.pt
+
+training:
+  epochs: 10
+  batch_size: 32
+  learning_rate: 0.001
+  # No random seed is declared here, so runs are not reproducible.
+
+serving:
+  host: 0.0.0.0
+  port: 8000

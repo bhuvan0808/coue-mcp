@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 160" width="740" height="160" role="img" aria-label="coue">
+  <title>coue</title>
+  <desc>The COUE logo: four orange dots followed by the lowercase wordmark "coue".</desc>
+  <rect width="740" height="160" fill="#FFFFFF"/>
+
+  <!-- four dots -->
+  <g fill="#FF7A00">
+    <circle cx="60" cy="80" r="26"/>
+    <circle cx="132" cy="80" r="26"/>
+    <circle cx="204" cy="80" r="26"/>
+    <circle cx="276" cy="80" r="26"/>
+  </g>
+
+  <!-- wordmark: geometric rounded letterforms, built as strokes -->
+  <g fill="none" stroke="#FF7A00" stroke-width="21" stroke-linecap="round" stroke-linejoin="round">
+    <!-- c -->
+    <path d="M402.98 60.72 A30 30 0 1 0 402.98 99.28"/>
+    <!-- o -->
+    <path d="M442 80 A30 30 0 1 0 502 80 A30 30 0 1 0 442 80"/>
+    <!-- u -->
+    <path d="M534 50 L534 80 A30 30 0 0 0 594 80 L594 50"/>
+    <!-- e -->
+    <path d="M626 80 L686 80"/>
+    <path d="M686 80 A30 30 0 1 0 677.21 101.21"/>
+  </g>
+</svg>

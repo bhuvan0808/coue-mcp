@@ -1,0 +1,56 @@
+{
+  "name": "coue-mcp",
+  "version": "1.0.0",
+  "description": "COUE - AI/ML production readiness auditing for Claude. A remote MCP server.",
+  "type": "module",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "bhuvan0808",
+  "homepage": "https://github.com/bhuvan0808/coue-mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bhuvan0808/coue-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bhuvan0808/coue-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "claude",
+    "connector",
+    "mlops",
+    "production-readiness",
+    "static-analysis"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "tsc --noEmit && wrangler deploy --dry-run --outdir=dist",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src tests --max-warnings=0",
+    "lint:fix": "eslint src tests --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "deploy": "wrangler deploy",
+    "inspect": "npx @modelcontextprotocol/inspector --cli http://localhost:8787/mcp --transport http --method tools/list",
+    "verify": "npm run typecheck && npm run lint && npm run test && npm run build"
+  },
+  "dependencies": {
+    "@cfworker/json-schema": "^4.1.1",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "hono": "^4.11.4",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261007.1",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.6.4",
+    "eslint": "^10.12.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.71.1",
+    "vitest": "^5.0.3",
+    "wrangler": "^4.148.0"
+  }
+}

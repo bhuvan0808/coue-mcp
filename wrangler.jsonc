@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "coue-mcp",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      // Sampling only; COUE never logs request bodies or analyzed source.
+      "head_sampling_rate": 1
+    }
+  },
+  "limits": {
+    "cpu_ms": 30000
+  },
+  "placement": {
+    "mode": "smart"
+  }
+}

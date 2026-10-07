@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="coue">
+  <title>coue</title>
+  <desc>The COUE icon: four orange dots in a square on a white field.</desc>
+  <rect width="512" height="512" rx="96" fill="#FFFFFF"/>
+  <g fill="#FF7A00">
+    <circle cx="176" cy="176" r="54"/>
+    <circle cx="336" cy="176" r="54"/>
+    <circle cx="176" cy="336" r="54"/>
+    <circle cx="336" cy="336" r="54"/>
+  </g>
+</svg>
