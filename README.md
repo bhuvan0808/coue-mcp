@@ -332,16 +332,21 @@ npm run deploy
 Then confirm:
 
 ```bash
-curl https://<your-worker-url>/health
+curl https://coue-mcp.coue-mcp.workers.dev/health
+# {"status":"ok","service":"coue","version":"1.0.0"}
 ```
 
 ## Claude setup
 
 COUE requires no authentication, so connecting it is a single step.
 
+```
+https://coue-mcp.coue-mcp.workers.dev/mcp
+```
+
 1. In Claude, go to **Settings → Connectors**.
 2. Choose **Add custom connector**.
-3. Enter the COUE endpoint URL, ending in `/mcp`.
+3. Enter the URL above.
 4. Open a conversation, enable COUE from **+ → Connectors**, and ask it to audit a project.
 
 ## Roadmap

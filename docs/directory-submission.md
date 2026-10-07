@@ -14,7 +14,7 @@ Submit by choosing **Submit new → MCP connector**.
 
 | Requirement | Status |
 | --- | --- |
-| Remote server reachable over HTTPS | See **Connection** below |
+| Remote server reachable over HTTPS | Yes — `https://coue-mcp.coue-mcp.workers.dev/mcp` |
 | Authentication works for Claude's client | Yes — `none` is supported by default |
 | Every tool has `title` + `readOnlyHint`/`destructiveHint` | Yes, all four |
 | Tested in Claude as a custom connector | See the testing log at the end |
@@ -28,7 +28,7 @@ Submit by choosing **Submit new → MCP connector**.
 
 | Field | Value |
 | --- | --- |
-| Server URL | `TO BE PROVIDED` — the deployed `https://…/mcp` URL |
+| Server URL | `https://coue-mcp.coue-mcp.workers.dev/mcp` |
 | Users connect to different URLs? | **No** — single universal URL |
 
 Transport is Streamable HTTP. The server is stateless and issues no session ID.
@@ -255,7 +255,7 @@ Two tools need no files at all:
    loaded per request and there is no drift monitoring. Check it."
 
 Health check (no authentication required):
-  GET <server URL>/health  ->  {"status":"ok","service":"coue","version":"1.0.0"}
+  GET https://coue-mcp.coue-mcp.workers.dev/health  ->  {"status":"ok","service":"coue","version":"1.0.0"}
 ```
 
 You must also confirm you have run every tool yourself, via MCP Inspector or as a custom
@@ -331,9 +331,9 @@ genuinely been run.**
 
 | Method | Result |
 | --- | --- |
-| `initialize` | Pass (local) |
-| `tools/list` | Pass (local) — four tools, annotations correct |
-| `tools/call` × 4 | Pass (local) |
+| `initialize` | Pass (local and production) |
+| `tools/list` | Pass (local and production) — four tools, annotations correct |
+| `tools/call` × 4 | Pass (local and production) |
 
 ### Real Claude custom connector
 

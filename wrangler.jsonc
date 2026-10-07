@@ -9,14 +9,11 @@
     "enabled": true,
     "logs": {
       "enabled": true,
-      // Sampling only; COUE never logs request bodies or analyzed source.
+      // COUE never logs request bodies or analyzed source.
       "head_sampling_rate": 1
     }
-  },
-  "limits": {
-    "cpu_ms": 30000
-  },
-  "placement": {
-    "mode": "smart"
   }
+  // Note: "limits.cpu_ms" and "placement.mode" are paid-plan features.
+  // COUE's analysis is short-lived enough not to need either; add them back
+  // if this Worker is moved to a paid plan.
 }
