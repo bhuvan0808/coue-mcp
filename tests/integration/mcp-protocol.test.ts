@@ -241,7 +241,9 @@ describe('tools/call: check_ml_project', () => {
 
     const text = textOf(result);
     expect(text).toContain('pytorch');
-    expect(text).toContain('FAIL');
+    // A declared-false check reads as "not in place", not as the desired state.
+    expect(text).toContain('NOT IN PLACE');
+    expect(text).toContain('declared as NOT in place');
     expect(text).toContain('PASS');
   });
 

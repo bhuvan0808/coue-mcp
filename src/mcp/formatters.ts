@@ -187,10 +187,14 @@ export function formatMlCheckText(result: MlCheckResult): string {
   const unknown = result.checks.filter((c) => c.status === 'UNKNOWN');
 
   if (failed.length > 0) {
-    lines.push(`FAIL (${failed.length})`);
+    lines.push(`NOT IN PLACE (${failed.length})`);
     lines.push('-'.repeat(12));
     for (const check of failed) {
-      lines.push(`[${(check.severity ?? 'info').toUpperCase()}] ${check.title}  (${check.category})`);
+      // Check titles are phrased as the desired state, so a failing row says
+      // explicitly that the state was declared absent.
+      lines.push(
+        `[${(check.severity ?? 'info').toUpperCase()}] ${check.title} — declared as NOT in place  (${check.category})`
+      );
       if (check.impact) lines.push(`   Why it matters: ${check.impact}`);
       if (check.recommendation) lines.push(`   Fix: ${check.recommendation}`);
       lines.push('');
@@ -198,7 +202,7 @@ export function formatMlCheckText(result: MlCheckResult): string {
   }
 
   if (passed.length > 0) {
-    lines.push(`PASS (${passed.length})`);
+    lines.push(`IN PLACE (${passed.length})`);
     lines.push('-'.repeat(12));
     for (const check of passed) {
       lines.push(`PASS  ${check.title}  (${check.category})`);

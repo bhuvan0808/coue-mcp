@@ -329,7 +329,7 @@ export function runMlCheck(input: CheckMlProjectInput): MlCheckResult {
       id: def.id,
       severity: def.severity,
       category: def.category,
-      title: def.title.replace(/^([A-Z])/, (m) => m) + ' — reported as not in place',
+      title: `${def.title} — declared as not in place`,
       description: def.impact,
       recommendation: def.recommendation,
       confidence: def.confidence
