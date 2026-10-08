@@ -274,3 +274,85 @@ describe('host-neutral public metadata', () => {
     expect(text).not.toMatch(/for Claude|for ChatGPT|for OpenAI|for Anthropic/i);
   });
 });
+
+describe('landing page', () => {
+  const browser = () =>
+    new Request('https://coue.example.com/', {
+      headers: { Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' }
+    });
+
+  it('serves HTML to a browser', async () => {
+    const response = await app.fetch(browser());
+    expect(response.status).toBe(200);
+    expect(response.headers.get('Content-Type')).toContain('text/html');
+
+    const html = await response.text();
+    expect(html.startsWith('<!doctype html>')).toBe(true);
+    expect(html).toContain('<title>COUE</title>');
+  });
+
+  it('still serves JSON to a non-browser client', async () => {
+    const response = await app.fetch(new Request('https://coue.example.com/'));
+    expect(response.headers.get('Content-Type')).toContain('application/json');
+    const body = (await response.json()) as Record<string, unknown>;
+    expect(body['service']).toBe('coue');
+  });
+
+  it('shows the MCP endpoint and that no auth is needed', async () => {
+    const html = await (await app.fetch(browser())).text();
+    expect(html).toContain('/mcp');
+    expect(html).toContain('No auth');
+  });
+
+  it('carries the heuristic disclaimer and the limitations', async () => {
+    const html = await (await app.fetch(browser())).text();
+    expect(html).toContain('engineering heuristic');
+    expect(html).toContain('not a security certification');
+    expect(html).toContain('UNKNOWN');
+  });
+
+  it('links to the privacy, terms, and support pages', async () => {
+    const html = await (await app.fetch(browser())).text();
+    for (const path of ['docs/privacy.md', 'docs/terms.md', 'docs/support.md']) {
+      expect(html).toContain(path);
+    }
+  });
+
+  it('names all four tools', async () => {
+    const html = await (await app.fetch(browser())).text();
+    for (const tool of [
+      'audit_project',
+      'check_ml_project',
+      'compare_models',
+      'generate_readiness_report'
+    ]) {
+      expect(html).toContain(tool);
+    }
+  });
+
+  it('loads no external resource and runs no script', async () => {
+    const html = await (await app.fetch(browser())).text();
+    expect(html).not.toMatch(/<script/i);
+    expect(html).not.toMatch(/src\s*=\s*["']https?:/i);
+    expect(html).not.toMatch(/<link[^>]+stylesheet/i);
+  });
+
+  it('relaxes CSP only for the document, and only for inline styles', async () => {
+    const doc = await app.fetch(browser());
+    const docCsp = doc.headers.get('Content-Security-Policy') ?? '';
+    expect(docCsp).toContain("style-src 'unsafe-inline'");
+    expect(docCsp).toContain("frame-ancestors 'none'");
+    // No script execution is permitted even on the document.
+    expect(docCsp).not.toContain('script-src');
+    expect(docCsp).toContain("default-src 'none'");
+
+    const json = await app.fetch(new Request('https://coue.example.com/health'));
+    const jsonCsp = json.headers.get('Content-Security-Policy') ?? '';
+    expect(jsonCsp).toBe("default-src 'none'; frame-ancestors 'none'");
+  });
+
+  it('is host-neutral', async () => {
+    const html = await (await app.fetch(browser())).text();
+    expect(html).not.toMatch(/for Claude|for ChatGPT|for OpenAI|for Anthropic/i);
+  });
+});

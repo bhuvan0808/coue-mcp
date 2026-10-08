@@ -5,11 +5,13 @@ All notable changes to COUE are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this
 project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2026-10-08
 
-### Changed
+Initial release.
 
-- Public copy is now host-neutral. COUE is positioned as an MCP server that works with
+### Notes on positioning
+
+- Public copy is host-neutral. COUE is positioned as an MCP server that works with
   any client rather than as a Claude-specific connector, so the same listing copy serves
   both the Anthropic and OpenAI directories. The `claude` keyword was dropped from
   `package.json`, and the README setup section now covers ChatGPT, Claude, and Claude Code.
@@ -30,10 +32,10 @@ project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Tests pinning the plugin package: required URLs present and HTTPS, version lockstep
   with the server, read-only capability matching the tool annotations, assets resolving,
   no credentials in the package, and no vendor-specific positioning in listing copy.
-
-## [1.0.0] - 2026-10-07
-
-Initial release.
+- A landing page at `/`, content-negotiated so a browser gets HTML and tooling keeps the
+  JSON service descriptor. It gives the service a human-readable HTTPS home usable as the
+  `websiteURL` in a directory listing, with no external resource, no script, and a
+  tightened Content-Security-Policy scoped to the document.
 
 ### Added
 
@@ -100,7 +102,7 @@ All four are annotated `readOnlyHint: true` and `destructiveHint: false`.
 
 **Project**
 
-- 194 automated tests across unit, integration, security, and protocol suites.
+- 229 automated tests across unit, integration, security, and protocol suites.
 - Demo project with documented intentional flaws, used as a test fixture.
 - Logo and icon assets.
 - README, privacy policy, security policy, and contributing guide.

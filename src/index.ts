@@ -2,6 +2,7 @@ import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 
+import { renderLandingPage } from './landing.js';
 import { PRIVACY_SUMMARY } from './privacy/policy.js';
 import { SERVER_VERSION, createCoueServer } from './mcp/server.js';
 import { LIMITS } from './utils/limits.js';
@@ -62,8 +63,17 @@ app.use('*', async (c, next) => {
   c.header('X-Content-Type-Options', 'nosniff');
   c.header('Referrer-Policy', 'no-referrer');
   c.header('X-Frame-Options', 'DENY');
-  // COUE serves JSON and SSE only; nothing should ever be rendered as a document.
-  c.header('Content-Security-Policy', "default-src 'none'; frame-ancestors 'none'");
+
+  // The landing page is the only document COUE serves. It needs its own inline
+  // styles and nothing else: no script, no external origin, no embedded frame.
+  // Every other response is data, and gets the strictest policy available.
+  const isDocument = (c.res.headers.get('Content-Type') ?? '').includes('text/html');
+  c.header(
+    'Content-Security-Policy',
+    isDocument
+      ? "default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+      : "default-src 'none'; frame-ancestors 'none'"
+  );
 });
 
 /**
@@ -96,9 +106,20 @@ app.get('/.well-known/openai-apps-challenge', (c) => {
   return c.text(token, 200, { 'Content-Type': 'text/plain; charset=utf-8' });
 });
 
-/** Service description, useful for anyone who opens the URL directly. */
-app.get('/', (c) =>
-  c.json({
+/**
+ * Root.
+ *
+ * Content-negotiated: a browser gets the landing page, anything else gets the
+ * JSON service descriptor. The JSON shape is what tooling depends on, so the
+ * HTML is served only when the client explicitly asks for it.
+ */
+app.get('/', (c) => {
+  const accept = c.req.header('accept') ?? '';
+  if (accept.includes('text/html')) {
+    return c.html(renderLandingPage());
+  }
+
+  return c.json({
     service: 'coue',
     description: 'AI/ML production readiness auditing.',
     version: SERVER_VERSION,
@@ -108,8 +129,8 @@ app.get('/', (c) =>
     tools: ['audit_project', 'check_ml_project', 'compare_models', 'generate_readiness_report'],
     privacy: PRIVACY_SUMMARY,
     documentation: 'https://github.com/bhuvan0808/coue-mcp'
-  })
-);
+  });
+});
 
 /**
  * Rejects a request body larger than COUE's application limit before the

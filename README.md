@@ -11,6 +11,36 @@
   Works with any MCP client, including ChatGPT and Claude.
 </p>
 
+<p align="center">
+  <a href="https://github.com/bhuvan0808/coue-mcp/actions/workflows/ci.yml"><img src="https://github.com/bhuvan0808/coue-mcp/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-FF7A00" alt="License: Apache-2.0"></a>
+  <img src="https://img.shields.io/badge/MCP-Streamable%20HTTP-FF7A00" alt="MCP: Streamable HTTP">
+  <img src="https://img.shields.io/badge/auth-none-FF7A00" alt="Authentication: none">
+</p>
+
+---
+
+## Live endpoint
+
+COUE is deployed and needs no account, no API key, and no sign-in:
+
+```
+https://coue-mcp.coue-mcp.workers.dev/mcp
+```
+
+| | |
+| --- | --- |
+| **Website** | https://coue-mcp.coue-mcp.workers.dev |
+| **Health** | https://coue-mcp.coue-mcp.workers.dev/health |
+| **Transport** | Streamable HTTP |
+| **Authentication** | None |
+
+Add it to [ChatGPT, Claude, or Claude Code](#connecting-coue), or try it straight away:
+
+```bash
+claude mcp add --transport http coue https://coue-mcp.coue-mcp.workers.dev/mcp
+```
+
 ---
 
 ## What is COUE?
